@@ -67,6 +67,9 @@ proc setBloomFilterMode*(self: SettingsModel, bloomFilterMode: bool): StatusGoEr
 proc setFleet*(self: SettingsModel, fleetConfig: FleetConfig, fleet: Fleet): StatusGoError =
   libstatus_settings.setFleet(fleetConfig, fleet)
 
+proc setV2LightMode*(self: SettingsModel, enabled: bool): StatusGoError =
+  libstatus_settings.setV2LightMode(enabled)
+
 proc getNodeConfig*(self: SettingsModel): JsonNode =
   libstatus_settings.getNodeConfig()
 
