@@ -1,24 +1,28 @@
 import statusgo_backend/browser as status_browser
 import ../eventemitter
 
-import ./types/[bookmark]
+import ../types/[bookmark]
+
+import ../backends/backend
 
 type
     BrowserModel* = ref object
         events*: EventEmitter
+        backend*: BackendWrapper
 
-proc newBrowserModel*(events: EventEmitter): BrowserModel =
+proc newBrowserModel*(events: EventEmitter, backend: BackendWrapper): BrowserModel =
   result = BrowserModel()
   result.events = events
+  result.backend = backend
 
 proc storeBookmark*(self: BrowserModel, url: string, name: string): Bookmark =
-  result = status_browser.storeBookmark(url, name)
+  result = self.backend.storeBookmark(url, name)
 
 proc updateBookmark*(self: BrowserModel, ogUrl: string, url: string, name: string) =
-  status_browser.updateBookmark(ogUrl, url, name)
+  self.backend.updateBookmark(ogUrl, url, name)
 
 proc getBookmarks*(self: BrowserModel): string =
-  result = status_browser.getBookmarks()
+  result = self.backend.getBookmarks()
 
 proc deleteBookmark*(self: BrowserModel, url: string) =
-  status_browser.deleteBookmark(url)
+  self.backend.deleteBookmark(url)
