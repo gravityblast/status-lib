@@ -3,3 +3,5 @@ nimcache
 vendor/.nimble
 /bottles/
 tmp
+src/libstatuslib-stamp
+settings.json
