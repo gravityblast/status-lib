@@ -75,6 +75,11 @@ type
     channelId*: string
     notificationTypes*: seq[ActivityCenterNotificationType]
 
+  MarkAsUnreadNotificationProperties* = ref object of Args
+    communityId*: string
+    channelId*: string
+    notificationTypes*: seq[ActivityCenterNotificationType]
+
 type ChatModel* = ref object
   publicKey*: string
   events*: EventEmitter
@@ -610,6 +615,16 @@ markAsReadProps: MarkAsReadNotificationProperties): string =
     result = e.msg
   
   self.events.emit("markNotificationsAsRead", markAsReadProps)
+
+proc markActivityCenterNotificationUnread*(self: ChatModel, notificationId: string,
+markAsUnreadProps: MarkAsUnreadNotificationProperties): string =
+  try:
+    status_chat.markActivityCenterNotificationsUnread(@[notificationId])
+  except Exception as e:
+    error "Error marking as unread", msg = e.msg
+    result = e.msg
+  
+  self.events.emit("markNotificationsAsUnread", markAsUnreadProps)
 
 proc acceptActivityCenterNotifications*(self: ChatModel, ids: seq[string]): string =
   try:
