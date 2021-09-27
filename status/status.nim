@@ -6,6 +6,7 @@ import notifications/os_notifications
 import ../eventemitter
 import bitops, stew/byteutils, chronicles
 import ./types/[setting]
+import ./keycard
 
 export chat, accounts, node, messages, contacts, profile, network, permissions, fleet, eventemitter
 
@@ -29,6 +30,7 @@ type Status* = ref object
   tokens*: TokensModel
   provider*: ProviderModel
   osnotifications*: OsNotifications
+  keycard*: KeycardModel
 
 proc newStatusInstance*(fleetConfig: string): Status =
   result = Status()
